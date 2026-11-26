@@ -576,7 +576,7 @@ RUN \
   cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr/local \
-    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCPACK_GENERATOR=DEB \
     -DCMAKE_COMPILE_WARNING_AS_ERROR=OFF \
     -DENABLE_SYSTEM_TBB=ON \
     -DENABLE_TBBBIND_2_5=OFF \
@@ -593,8 +593,14 @@ RUN \
     -DENABLE_OV_TF_LITE_FRONTEND=OFF \
     -DENABLE_OV_JAX_FRONTEND=OFF \
     .. && \
-  make && \
+  make
+RUN \
+  echo "**** installing openvino ****" && \
+  cd /tmp/openvino/build && \
   make install && \
+  echo "**** openvino layout ****" && \
+  find /usr/local -name 'libopenvino.so*' -o -name 'openvino.pc' -o -name 'plugins.xml' && \
+  pkg-config --modversion openvino && \
   strip -d /usr/local/lib/libopenvino*.so
 RUN \
   echo "**** grabbing ogg ****" && \
