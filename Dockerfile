@@ -599,10 +599,10 @@ RUN \
   echo "**** installing openvino ****" && \
   cd /tmp/openvino/build && \
   make install && \
-  echo "**** openvino layout ****" && \
-  find /usr/local -name 'libopenvino.so*' -o -name 'openvino.pc' -o -name 'plugins.xml' && \
+  ls -l /usr/lib/libopenvino*.so* /usr/lib/openvino-${OPENVINO}/ && \
   pkg-config --modversion openvino && \
-  strip -d /usr/local/lib/libopenvino*.so
+  find /usr/lib -maxdepth 1 -name 'libopenvino*.so.*.*.*' -type f -exec strip -d {} + && \
+  find /usr/lib/openvino-${OPENVINO} -name '*.so' -type f -exec strip -d {} +
 RUN \
   echo "**** grabbing ogg ****" && \
   mkdir -p /tmp/ogg && \
@@ -1105,7 +1105,10 @@ RUN \
     /usr/local/share/vulkan/* \
     /buildout/usr/local/share/vulkan/ && \
   cp -a \
-    /usr/local/lib/openvino-* \
+    /usr/lib/libopenvino*.so* \
+    /buildout/usr/local/lib/ && \
+  cp -a \
+    /usr/lib/openvino-${OPENVINO} \
     /buildout/usr/local/lib/ && \
   echo \
     'libnvidia-opencl.so.1' > \
