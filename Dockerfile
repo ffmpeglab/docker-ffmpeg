@@ -554,8 +554,10 @@ RUN \
   meson setup \
     --prefix=/usr --libdir=/usr/local/lib \
     --buildtype release \
+    -Denable_tests=false \
+    -Denable_docs=false \
     build && \
-  ninja -vC build && \
+  ninja -j2 -vC build && \
   ninja -vC build install
 RUN \
   echo "**** grabbing openvino ****" && \
