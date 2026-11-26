@@ -101,6 +101,7 @@ RUN \
     libmpg123-dev \
     libpciaccess-dev \
     libssl-dev \
+    libtbb-dev \
     libtool \
     libv4l-dev \
     libwayland-dev \
@@ -1136,7 +1137,7 @@ RUN \
   echo "**** install runtime ****" && \
     apt-get update && \
     apt-get install -y \
-    libtbb-dev \
+    libtbb12 \
     libasound2t64 \
     libedit2 \
     libelf1t64 \
